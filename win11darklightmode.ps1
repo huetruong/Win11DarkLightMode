@@ -17,7 +17,6 @@ Enables light mode in Windows.
 Enables dark mode in Windows.
 #>
 
-
 [CmdletBinding()]
 param (
     [int] $DarkMode = -1
