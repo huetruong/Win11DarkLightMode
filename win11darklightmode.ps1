@@ -22,43 +22,57 @@ The function automatically checks if Windows 11 is currently in Dark Mode and sw
 #>
 
 [CmdletBinding()]
-param (
-    [int] $DarkMode = -1
+param(
+  [int]$DarkMode = -1
 )
 
 if ($DarkMode -eq -1) {
-    # Toggle between light and dark mode if executed without parameters
-    $currentTheme = Get-ItemPropertyValue -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name AppsUseLightTheme
-    if ($currentTheme -eq 1) {
-        $DarkMode = 1
-    } else {
-        $DarkMode = 0
-    }
+  # Toggle between light and dark mode if executed without parameters
+  $currentTheme = Get-ItemPropertyValue `
+    -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize `
+    -Name AppsUseLightTheme
+  if ($currentTheme -eq 1) {
+    $DarkMode = 1
+  } else {
+    $DarkMode = 0
+  }
 }
 
 switch ($DarkMode) {
-    0 {
-        # Handle DarkMode = 0 case
-        Write-Output "Light mode is enabling..."
-        Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name AppsUseLightTheme -Value 1
-        Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name SystemUsesLightTheme -Value 1
-        Write-Output "Please wait while Windows Explorer restarts..."
-        Stop-Process -Name explorer
-    }
-    1 {
-        # Handle DarkMode = 1 case
-        Write-Output "Dark mode is enabling..."
-        Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name AppsUseLightTheme -Value 0
-        Set-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name SystemUsesLightTheme -Value 0
-        Write-Output "Please wait while Windows Explorer restarts..."
-        Stop-Process -Name explorer
-    }
-    default {
-        # Handle any other cases (the message below will not be shown since simple execution with auto swtich for dark to light and vice versa)
-        Write-Warning "If you do not provide a parameter - it will auto switch from Dark to Light and vice versa"
-        Write-Output "-DarkMode 0 - Change Windows Theme to Light mode"
-        Write-Output "-Darkmode 1 - Change Windows Theme to Dark mode"
-    }
+  0 {
+    # Handle DarkMode = 0 case
+    Write-Output "Light mode is enabling..."
+    Set-ItemProperty `
+      -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize `
+      -Name AppsUseLightTheme `
+      -Value 1
+    Set-ItemProperty `
+      -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize `
+      -Name SystemUsesLightTheme `
+      -Value 1
+    Write-Output "Please wait while Windows Explorer restarts..."
+    Stop-Process -Name explorer
+  }
+  1 {
+    # Handle DarkMode = 1 case
+    Write-Output "Dark mode is enabling..."
+    Set-ItemProperty `
+      -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize `
+      -Name AppsUseLightTheme `
+      -Value 0
+    Set-ItemProperty `
+      -Path HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize `
+      -Name SystemUsesLightTheme `
+      -Value 0
+    Write-Output "Please wait while Windows Explorer restarts..."
+    Stop-Process -Name explorer
+  }
+  default {
+    # Handle any other cases (the message below will not be shown since simple execution with auto swtich for dark to light and vice versa)
+    Write-Warning "If you do not provide a parameter - it will auto switch from Dark to Light and vice versa"
+    Write-Output "-DarkMode 0 - Change Windows Theme to Light mode"
+    Write-Output "-Darkmode 1 - Change Windows Theme to Dark mode"
+  }
 }
 
 # Get the command name
