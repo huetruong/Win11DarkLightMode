@@ -19,7 +19,7 @@ An integer parameter that controls the dark mode setting. The default value is -
 
 .\win11darklightmode.ps1 -DarkMode 1
 
-### EXAMPLE3 - Direct execution via Explorer right click
+### EXAMPLE 3 - Direct execution via Explorer right click
 .\win11darklightmode.ps1
 
 The script automatically checks if Windows 11 is currently in Dark Mode and switches to Light Mode accordingly. It also verifies if Windows 11 is in Dark Mode and then switches to Light Mode.
