@@ -23,8 +23,28 @@ The function automatically checks if Windows 11 is currently in Dark Mode and sw
 
 [CmdletBinding()]
 param(
+  [switch]$AutoDetect,
   [int]$DarkMode = -1
 )
+
+# Define the light and dark mode times
+$LightModeTime = (Get-Date).Date.AddHours(8)
+$DarkModeTime = (Get-Date).Date.AddHours(18)
+
+# Get the current time
+$currentTime = Get-Date
+
+if ($AutoDetect) {
+
+  # Check the current time and set the variable accordingly
+  if ($currentTime -ge $LightModeTime -and $currentTime -lt $DarkModeTime) {
+    $DarkMode = 0
+    Write-Output "Automatically switching to Light Mode as the current time is within the predefined Light Mode hours."
+  } else {
+    $DarkMode = 1
+    Write-Output "Automatically switching to Dark Mode as the current time is within the predefined Dark Mode hours."
+  }  
+}
 
 if ($DarkMode -eq -1) {
   # Toggle between light and dark mode if executed without parameters
